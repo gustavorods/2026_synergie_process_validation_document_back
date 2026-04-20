@@ -3,86 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Gerador de PDF</title>
-
-<style>
-  * {
-    box-sizing: border-box;
-  }
-
-  body {
-    font-family: Arial, Helvetica, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #0f172a;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    color: #e2e8f0;
-  }
-
-  .container {
-    width: 100%;
-    max-width: 520px;
-    background: #111827;
-    padding: 28px;
-    border-radius: 16px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-  }
-
-  h2 {
-    margin-bottom: 20px;
-    font-size: 22px;
-    text-align: center;
-    color: #f8fafc;
-  }
-
-  input, textarea {
-    width: 100%;
-    margin-bottom: 12px;
-    padding: 10px 12px;
-    border-radius: 10px;
-    border: 1px solid #334155;
-    background: #0b1220;
-    color: #e2e8f0;
-    outline: none;
-    transition: 0.2s;
-  }
-
-  input:focus, textarea:focus {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 2px rgba(59,130,246,0.3);
-  }
-
-  textarea {
-    min-height: 100px;
-    resize: vertical;
-  }
-
-  input[type="file"] {
-    padding: 8px;
-    background: #0b1220;
-  }
-
-  button {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 10px;
-    background: linear-gradient(135deg, #3b82f6, #2563eb);
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.2s;
-    margin-top: 8px;
-  }
-
-  button:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 10px 20px rgba(37,99,235,0.4);
-  }
-
-</style>
+<link rel="stylesheet" href="./src/style/index.css">
 </head>
 
 <body>
@@ -105,51 +26,6 @@
   <button onclick="gerar()">Gerar PDF</button>
 </div>
 
-<script>
-async function gerar() {
-  const file = document.getElementById("imagem").files[0];
-
-  const toBase64 = (file) =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
-    });
-
-  const imagemBase64 = file ? await toBase64(file) : "";
-
-  const dados = {
-    cliente: document.getElementById("cliente").value,
-    sistema: document.getElementById("sistema").value,
-    modulo: document.getElementById("modulo").value,
-    projeto: document.getElementById("projeto").value,
-    documento: document.getElementById("documento").value,
-    autor: document.getElementById("autor").value,
-    data: document.getElementById("data").value,
-    conclusao: document.getElementById("conclusao").value,
-
-    logo: "https://c5gwmsmjx1.execute-api.us-east-1.amazonaws.com/prod/dados_processo_seletivo/logo_empresa/115191/Capturar2.JPG",
-    imagem: imagemBase64
-  };
-
-  const res = await fetch("http://localhost:3000/gerar-pdf", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(dados)
-  });
-
-  const blob = await res.blob();
-
-  const url = window.URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "documento.pdf";
-  a.click();
-}
-</script>
-
+<script src="./src/script/script.js"></script>
 </body>
 </html>
